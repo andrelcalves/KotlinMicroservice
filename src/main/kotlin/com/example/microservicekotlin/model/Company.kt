@@ -1,12 +1,21 @@
 package com.example.microservicekotlin.model
 
-import javax.persistence.Entity
-import javax.persistence.Table
-import javax.persistence.Id
-import javax.persistence.GeneratedValue
+import javax.persistence.*
 
 @Entity
-@Table
-data class Company(@Id @GeneratedValue val id:Int = 0,
-                   val name:String = "",
-                   val address:String = "")
+@Table(name = "company")
+data class Company(
+    @Id
+    @GeneratedValue
+    @Column(name = "id_company")
+    var id:Int = 0,
+
+    @Column(name = "name")
+    var name:String = "",
+
+    @Column(name= "address")
+    var address:String = "",
+
+    @OneToMany(mappedBy = "company", cascade= [CascadeType.ALL], fetch = FetchType.LAZY)
+    var products: MutableSet<Product> = mutableSetOf()
+    )
